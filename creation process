@@ -11,3 +11,26 @@ Add Credentials Go to: Manage Jenkins → Credentials → Global
 Add:
 SSH Username with Private Key: for Tomcat EC2s.
 Secret Text: for IPs or other secrets if needed.
+
+You need add:
+tomcat1-ip → Public IP of Tomcat Server 1
+tomcat2-ip → Public IP of Tomcat Server 2
+
+As:
+Kind: Secret Text
+Scope: Global (System)
+ID: tomcat1-ip, tomcat2-ip
+
+ Step 1: Go to Jenkins → Manage Jenkins → Global Tool Configuration
+Under Maven, make sure you:  Click Add Maven
+Name it exactly like:
+maven-3.8.1
+✅ Check "Install automatically"
+Select Maven version: 3.8.1 or latest
+If our apache file is in our /root/ path we need to change into /home/ec2-user BY:
+
+sudo mv /root/apache-tomcat-9.0.105 /home/ec2-user/
+sudo chown -R ec2-user:ec2-user /home/ec2-user/apache-tomcat-9.0.105
+
+
+
