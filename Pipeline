@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'maven-3.8.1'  // exact match with Global Tool name
+    }
+
     parameters {
         booleanParam(name: 'DEPLOY_TOMCAT1', defaultValue: true, description: 'Deploy to Tomcat1')
         booleanParam(name: 'DEPLOY_TOMCAT2', defaultValue: true, description: 'Deploy to Tomcat2')
@@ -8,10 +12,10 @@ pipeline {
 
     environment {
         WAR_FILE = "target/NETFLIX-1.2.2.war"
-        WAR_NAME = "NETFLIX.war"   // Rename while copying for simplicity
-        TOMCAT_USER = "ubuntu"
-        DEPLOY_PATH = "/home/ubuntu/apache-tomcat-9.0.102/webapps"
-        SSH_CREDENTIALS_ID = "7e4031ee-9f2c-4479-b3ee-00a97373fbb1"
+        WAR_NAME = "NETFLIX.war"
+        TOMCAT_USER = "ec2-user"
+        DEPLOY_PATH = "/home/ec2-user/apache-tomcat-9.0.105/webapps"
+        SSH_CREDENTIALS_ID = "4625fa9e-686d-4461-a71e-5c63417a893c"
         DEPLOY_CONTEXT = "NETFLIX"
     }
 
@@ -32,8 +36,9 @@ pipeline {
                     script {
                         env.TOMCAT1_IP = "${IP1}"
                         env.TOMCAT2_IP = "${IP2}"
-                        echo "TOMCAT1_IP loaded: ${env.TOMCAT1_IP}"
-                        echo "TOMCAT2_IP loaded: ${env.TOMCAT2_IP}"
+                       echo "TOMCAT1_IP loaded: ${env.TOMCAT1_IP}"
+                       echo "TOMCAT2_IP loaded: ${env.TOMCAT2_IP}"
+
                     }
                 }
             }
@@ -86,9 +91,9 @@ pipeline {
                         usernameVariable: 'SSH_USER'
                     )]) {
                         def restartCmd = '''
-                            sudo /home/ubuntu/apache-tomcat-9.0.102/bin/shutdown.sh || true
+                            sudo /home/ec2-user/apache-tomcat-9.0.105/bin/shutdown.sh || true
                             sleep 5
-                            sudo /home/ubuntu/apache-tomcat-9.0.102/bin/startup.sh
+                            sudo /home/ec2-user/apache-tomcat-9.0.105/bin/startup.sh
                         '''
                         if (params.DEPLOY_TOMCAT1) {
                             sh "ssh -o StrictHostKeyChecking=no -i \$SSH_KEY_PATH \$SSH_USER@${env.TOMCAT1_IP} '${restartCmd}'"
