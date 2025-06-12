@@ -1,0 +1,13 @@
+TOMCAT:
+it is application server.
+used to deploy java applications
+its free and platform independent.
+it is given by apache software foundations.
+Here we can deploy jar and war files.
+
+Process:
+Take two servers with (t2.micro)(tomcat1,tomcat2) and one for Jenkins
+Add Credentials Go to: Manage Jenkins → Credentials → Global
+Add:
+SSH Username with Private Key: for Tomcat EC2s.
+Secret Text: for IPs or other secrets if needed.
