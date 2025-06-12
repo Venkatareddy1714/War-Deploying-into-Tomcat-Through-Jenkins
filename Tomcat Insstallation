@@ -1,5 +1,5 @@
 SETUP:
-1. https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.105/bin/apache-tomcat-9.0.105.tar.gz
+1. wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.105/bin/apache-tomcat-9.0.105.tar.gz
 2. tar -zxvf  apache-tomcat-9.0.105.tar.gz && cd apache-tomcat-9.0.105
 3. sudo yum install java-17-amazon-corretto -y
 4. vim webapps/manager/META-INF/context.xml  (delete line 21 and 22)
